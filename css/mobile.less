@@ -13,7 +13,7 @@
 body {font-family:"Helvetica Neue", Helvetica, "PingFangSC-Regular;","PingFang SC",  "Microsoft YaHei", "微软雅黑"}
 body, dl, dd, h1, h2, h3, h4, h5, p, figure, form, ul, ol,li,button,input,a,textarea,span,i,em,b {  margin: 0; padding: 0;  }
 ul, ol, li {  list-style: none;  }
- em,i{  font-style: normal;  }
+ //em,i{  font-style: normal;  }
 h1, h2, h3, h4, h5 {  font-size: 100%;  }
 input {border: 0; margin: 0;  }
 img {  width: 100%;  }
@@ -111,21 +111,64 @@ a{text-decoration: none}
 }
 
 body{
-  background-color:rgba(255,255,255,0.2)
+  //background-color:#FED7D8;
+
+  //background: url("../images/bj.jpg");
+  //background-size: auto auto;
+  //color: #1A2D27;
+  //background-size: 88rem 32rem;
+
+  background: -webkit-gradient(linear, 0 0, 0 bottom, from(hotpink), to(pink));
+  color: #1A2D27;
+  .pw{
+    margin: 1rem 1rem 0;
+    border-radius: 2px 2px 0 0;
+  }
 }
 h1{
-  padding: 2rem 0;
+  padding: 5rem 0 1rem;
   text-align: center;
-  color: skyblue;
+  color: #1A2D27;
   font-size: 2rem;
+}
+.top{
+  position: relative;
+  height: 28rem;
+  background: url("../images/hebian.jpg") 50% 46%;
+  overflow: hidden;
+  .xingming{
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    width: 60%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    box-shadow: 0 0 1rem;
+    border-radius: 1rem;
+    p{
+      text-align: center;
+      //color: #FF6E97;
+      color: gold;
+      line-height:2rem;
+    }
+    em{
+      text-align: right;
+      color: red;
+    }
+
+  }
 }
 .header{
   h2{
-    color: #494949;
+    color: #ffffff;
+    margin-bottom: 2rem;
   }
-  padding: 1rem;
-  border-radius: 2px;
-  box-shadow: 1rem 1rem 1rem 1rem #494949;
+img{
+  width: 50%;
+  border-radius: 2rem;
+  box-shadow: 0rem 0rem 1.5rem #5ED5DB;
+}
+
 }
 
 
