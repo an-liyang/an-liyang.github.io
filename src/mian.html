@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>抓娃娃大战</title>
+    <link rel="stylesheet" href="../css/demo.css">
+    <link rel="stylesheet" href="../css/loaders.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../js/jquery.js"></script>
+</head>
+<body>
+    <div class="mian">
+      <div class="content">
+        <!--爪子-->
+        <div id="zhuzi">
+          <div id="hualun"></div>
+          <div id="line"></div>
+          <div id="claw">
+            <div class="wawa"></div>
+          </div>
+        </div>
+
+        <!--出口-->
+        <!--<div id="chukou">出口</div>-->
+        <!--娃娃-->
+        <div id="graoup_wawa"></div>
+      </div>
+      
+        <div id="start">
+            <img src="../img/star.png"/>
+        </div>
+        <div id="down" class='hide'>
+            <img src="../img/down-pre.png"/>
+          <div class="loader">
+            <div class="loader-inner ball-scale-multiple hide">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      
+        <!--<div id="down">向下</div>-->
+    </div>
+   
+</body>
+<script>
+    window.onload=window.onresize=function(){
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
+    };
+  $(function () {
+      var css = {'left':'5.3rem'};
+      var hTop = {"top":'3.34rem'};
+      var timer = 0;
+//      最终娃娃的结果
+      var jieguo = '';
+      
+//      y轴防止重复点击
+      var Y_flag = false;
+//      x轴防止重复点击
+      var X_flag = false;
+//      记录开始的时间
+      var count_timer = function(){
+//          x轴返回时间
+           set_time=setInterval(function () {
+                  timer+=200;
+              },200);
+          return set_time
+      }
+//      开始
+      $('#start').click(function () {
+          $(this).addClass('hide');
+          $('#down').find('img').eq(0).attr({'src':'../img/down-pre.png'});
+          $('#down').removeClass('hide');
+          if(!X_flag){
+              X_flag =true;
+              count_timer();
+              $("#zhuzi").animate(css,500,rowBack);
+          }else {
+              return '';
+          }
+          
+      })
+//      左右
+      function rowBack(){
+          if(css.left=='0.8rem')
+              css.left='5.3rem';
+          else if(css.left=='5.3rem')
+              css.left='0.8rem';
+          $('#zhuzi').animate(css,500,rowBack);
+      }
+//      向下
+     
+      $('#down').click(function () {
+//          按下动画
+          if( $('.ball-scale-multiple').hasClass('hide')){
+              $('.ball-scale-multiple').removeClass('hide');
+              setTimeout(function () {
+                  $('.ball-scale-multiple').addClass('hide');
+              },1000);
+          }
+          if(Y_flag){
+              return '';
+          }else {
+              Y_flag = true;
+              clearInterval(set_time);
+              $('#claw').css({
+                  'background':' 0 0 url("../img/爪子-正常.png") no-repeat',
+                  'background-size': '100%',
+              });
+//          重置
+              $('.wawa').attr({'class':'wawa'});
+              $('.wawa').css({
+                  width:0,
+                  height:0,
+                  top:0,
+                  left:0,
+                  'background-image':''
+              })
+              var flag = 0;
+              flag = Math.floor(timer/2000);
+//          最终返回x轴时间确定
+              if(flag%2 == 0){
+                  timer -=2000*flag;
+              }else {
+                  timer=2000*(flag+1) - timer;
+              }
+//          阻止x轴动画停止
+//              console.log(timer);
+              $("#zhuzi").stop();
+              $("#claw").animate(hTop,2000,colBack);
+              $("#line").animate({'height':'3.6rem'},2000,function () {
+                  $("#line").animate({'height':'0.6rem'},2000)
+              })
+          }
+          
+      });
+      function colBack() {
+          var _left = $("#zhuzi").position().left;
+          $('#down').find('img').eq(0).attr({'src':'../img/按钮-正常.png'});
+          console.log(timer,_left);
+          var count = sheng_cheng(_left);
+//        count=2;
+//        切换娃娃
+          switch (count){
+              case 0:
+                  break;
+              case 1:
+                  $('.wawa').css({
+                      width: '0.68rem',
+                      height: '0.78rem',
+                      top: '1.1rem',
+                      left: '0',
+                      'background-image':'url("../img/鸭子.png")'
+                  });
+                  break;
+              case 2:
+                  $('.wawa').css({
+                      width: '2rem',
+                      height: '2.1rem',
+                      top: '0.6rem',
+                      left: '-0.6rem',
+                      'background-image':'url("../img/狗.png")'
+                  });
+                  break;
+              case 3:
+                  $('.wawa').css({
+                      width: '1.1rem',
+                      height: '1.25rem',
+                      top: '1.1rem',
+                      left: '-0.1rem',
+                      'background-image':'url("../img/熊.png")'
+                  });
+                  break;
+              case 4:
+                  $('.wawa').css({
+                      width: '1.8rem',
+                      height: '1.78rem',
+                      top: '0.65rem',
+                      left: '-0.5rem',
+                      'background-image':'url("../img/小浣熊.png")'
+                  });
+                  break;
+          }
+          $("#claw").animate({'top':'0.34rem'},2000,function () {
+              $("#zhuzi").animate({'left':'0.8rem'},timer,function () {
+//                  确定返回动画完成重置参数
+                  $('#claw').css({
+                      'background':' 0 0 url("../img/爪子-松开.png") no-repeat',
+                      'background-size': '100%',
+                  })
+                  timer = 0;
+                  X_flag = false;
+                  Y_flag = false;
+//                  添加娃娃下落动画
+                  if(count == 1){
+                      $('.wawa').addClass('animated mymove');
+                  }else if(count == 2){
+                      $('.wawa').addClass('animated mymove1');
+                  }else if(count == 3){
+                      $('.wawa').addClass('animated mymove2');
+                  }else if(count == 4){
+                      $('.wawa').addClass('animated mymove3');
+                  };
+                  $('#start').removeClass('hide');
+                  $('#down').addClass('hide');
+//                  按钮切换
+                  setTimeout(function () {
+                      
+                      $('.wawa').css({
+                          width:0,
+                          height:0,
+                          top:0,
+                          left:0,
+                          'background-image':''
+                      });
+                  },900);
+
+              })
+          })
+      }
+//      娃娃概率
+      function random0() {
+          jieguo = 0;
+          return jieguo;
+      }
+      function random1() {
+          var ran1=Math.floor(Math.random()*10+1);
+          jieguo = 1;
+          return jieguo;
+      }
+      function random2() {
+          var ran2=Math.floor(Math.random()*100+1);
+          if(ran2>=1 && ran2<=20 ){
+              jieguo = 2;
+          }else{
+              jieguo = 1;
+          }
+          return jieguo;
+      }
+      function random3() {
+          var ran3=Math.floor(Math.random()*100+1);
+          if(ran3<=10 ){
+              jieguo = 3;
+          }else if(ran3>=11 && ran3<=50){
+              jieguo = 2;
+          }else if(ran3>=51){
+              jieguo = 1;
+          }
+          return jieguo;
+      }
+      function random4() {
+          var ran4=Math.floor(Math.random()*100+1);
+          if(ran4<=5 ){
+              jieguo = 4;
+          }else if(ran4>=6 && ran4<=25){
+              jieguo = 3;
+          }else if(ran4>=26 && ran4<=75){
+              jieguo = 2;
+          }else{
+              jieguo = 1;
+          }
+          return jieguo
+      }
+      function random5() {
+          var ran5=Math.floor(Math.random()*100+1);
+          if(ran5<=10 ){
+              jieguo = 4;
+          }else if(ran5>=11 && ran5<=50){
+              jieguo = 3;
+          }else if(ran5>=51){
+              jieguo = 2;
+          }
+          return jieguo;
+      }
+//      娃娃生成
+      function sheng_cheng(left) {
+          if(left<100){
+             return random0();
+          }else if(left>=100 && left<141){
+             return random1();
+          }else if(left<182 && left>=141){
+             return random2();
+          }else if(left<223 && left>=182){
+              return random3();
+          }else if(left<248 && left>=223){
+              return random4();
+          }else{
+             return random5();
+          }
+      }
+      
+  })
+</script>
+</html>
